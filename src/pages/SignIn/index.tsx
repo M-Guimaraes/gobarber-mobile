@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
+import { useNavigation } from '@react-navigation/native'
+import { Form } from '@unform/mobile'
 
 import Button from '../../components/button'
 import Input from '../../components/input'
-
 
 import logoImg from '../../assets/logo.png';
 import {
@@ -17,6 +18,10 @@ import {
 } from './styles'
 
 const SignIn: React.FC = () => {
+  const navigation = useNavigation();
+  const handleSignIn = useCallback((data: object) => {
+    console.log(data)
+  }, [])
   return (
     <>
       <KeyboardAvoidingView
@@ -34,11 +39,11 @@ const SignIn: React.FC = () => {
             <View>
               <Title>Faça seu logon</Title>
             </View>
+            <Form onSubmit={handleSignIn}>
+              <Input name="email" icon="mail" placeholder="E-mail" />
 
-            <Input name="email" icon="mail" placeholder="E-mail" />
-
-            <Input name="password" icon="lock" placeholder="Senha" />
-
+              <Input name="password" icon="lock" placeholder="Senha" />
+            </Form>
             <Button onPress={() => { }}>Entrar</Button>
             <ForgotPassword onPress={() => { }}>
               <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
@@ -47,7 +52,7 @@ const SignIn: React.FC = () => {
         </ScrollView>
       </KeyboardAvoidingView >
 
-      <CreateAccountButton onPress={() => { }}>
+      <CreateAccountButton onPress={() => navigation.navigate('SignUp')}>
         <Icon name="log-in" size={20} color="#ff9000" />
         <CreateAccountText>Crie uma conta</CreateAccountText>
       </CreateAccountButton>
